@@ -30,40 +30,50 @@ def remove_beggining_spaces(f):
 
     f.seek(-1, 1)
 
-def extract_page_title(f):
+def extract_tag_content(f, tag):
+    if tag[0] != '<':
+        tag = '<' +  tag + '>'
+    
     remove_beggining_spaces(f)
     
     letter = f.read(1)
     read_letters = ''
 
-    title_begin = False
-    title_end = False
-    
-    while letter != '' and not title_begin:
+    tag_begin = False
+    tag_end = False
+    tag_size = len(tag)
+
+    while letter != '' and not tag_begin:
         read_letters += letter
         letter = f.read(1)
-        title_begin = read_letters[-7:] == '<title>'
+        tag_begin = read_letters[-tag_size:] == tag
 
-    if title_begin:
-        read_letters = read_letters[7:]
+    if tag_begin:
+        read_letters = read_letters[tag_size:]
     else:
-        return '_no_title_begin_found'
+        print '_no_tag_begin_found_for_' + tag
+        return '_no_tag_begin_found_for_' + tag
 
-    while letter != '' and not title_end:
+    while letter != '' and not tag_end:
         read_letters += letter
         letter = f.read(1)
-        title_end = read_letters[-8:] == '</title>'
+        tag_end = read_letters[-(tag_size+1):] == '</' + tag[1:]
 
-    if title_end:
-        read_letters = read_letters[:-8]
+    if tag_end:
+        read_letters = read_letters[:-(tag_size+1)]
         return read_letters
 
-    return '_no_title_end_found'
+    print '_no_tag_end_found_for_' + tag
+    return '_no_tag_end_found_for_' + tag
 
 
 def extract_page(f, page_counter):
-    title = extract_page_title(f)
+    # title = extract_page_title(f)
+    title = extract_tag_content(f, 'title')
     title = title.replace(os.sep, '-')
+
+    extract_tag_content(f, 'ns')
+    extract_tag_content(f, 'id')
 
     remove_beggining_spaces(f)
     
@@ -106,6 +116,6 @@ def extract_pages():
 
 if __name__ == '__main__':
 
-    extract_wiki_piece()
+    # extract_wiki_piece()
 
     extract_pages()
