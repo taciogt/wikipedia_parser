@@ -5,7 +5,7 @@ import logging
 
 import file_names
 
-sample_test = True
+sample_test = False
 if sample_test:
     wiki_path = file_names.wiki_piece
     pages_path = file_names.pages_path
@@ -66,6 +66,39 @@ def extract_tag_content(f, tag):
     print '_no_tag_end_found_for_' + tag
     return '_no_tag_end_found_for_' + tag
 
+def extract_revision_text(f):
+    letter = f.read(1)
+    read_letters = ''
+
+    text_begin = False
+    text_end = False
+
+    while letter != '' and not text_begin:
+        read_letters += letter
+        letter = f.read(1)
+        text_begin = read_letters[-5:] == '<text'
+
+    if text_begin:
+        while letter != '>':
+            letter = f.read(1)
+        read_letters = ''
+    else:
+        print 'no text begin found!'
+        return 'no text begin found!'
+
+    letter = f.read(1)
+    while letter != '' and not text_end:
+        read_letters += letter
+        letter = f.read(1)
+        text_end = read_letters[-7:] == '</text>'
+
+    if text_end:
+        read_letters = read_letters[:-7]
+        return read_letters
+
+    print 'no text end found!'
+    return 'no text end found!'
+
 
 def extract_page(f, page_counter):
     # title = extract_page_title(f)
@@ -77,6 +110,8 @@ def extract_page(f, page_counter):
 
     remove_beggining_spaces(f)
     
+    text = extract_revision_text(f)
+
     letter = f.read(1)
     read_letters = ''
     end_of_page = False
@@ -91,7 +126,8 @@ def extract_page(f, page_counter):
 
     try:
         page_file = open(pages_path + str(title) + '.xml', 'w')
-        page_file.write(read_letters)
+        page_file.write(text)
+        # page_file.write(read_letters)
         page_file.close()
     except Exception as e:
         logging.exception('deu merda!: ' + title)
