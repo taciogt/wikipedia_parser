@@ -5,7 +5,7 @@ import logging
 
 import file_names
 
-sample_test = False
+sample_test = True
 if sample_test:
     wiki_path = file_names.wiki_piece
     pages_path = file_names.pages_path
@@ -30,88 +30,43 @@ def remove_beggining_spaces(f):
 
     f.seek(-1, 1)
 
-def extract_tag_content(f, tag):
-    if tag[0] != '<':
-        tag = '<' +  tag + '>'
-    
+def extract_page_title(f):
     remove_beggining_spaces(f)
     
     letter = f.read(1)
     read_letters = ''
 
-    tag_begin = False
-    tag_end = False
-    tag_size = len(tag)
-
-    while letter != '' and not tag_begin:
+    title_begin = False
+    title_end = False
+    
+    while letter != '' and not title_begin:
         read_letters += letter
         letter = f.read(1)
-        tag_begin = read_letters[-tag_size:] == tag
+        title_begin = read_letters[-7:] == '<title>'
 
-    if tag_begin:
-        read_letters = read_letters[tag_size:]
+    if title_begin:
+        read_letters = read_letters[7:]
     else:
-        print '_no_tag_begin_found_for_' + tag
-        return '_no_tag_begin_found_for_' + tag
+        return '_no_title_begin_found'
 
-    while letter != '' and not tag_end:
+    while letter != '' and not title_end:
         read_letters += letter
         letter = f.read(1)
-        tag_end = read_letters[-(tag_size+1):] == '</' + tag[1:]
+        title_end = read_letters[-8:] == '</title>'
 
-    if tag_end:
-        read_letters = read_letters[:-(tag_size+1)]
+    if title_end:
+        read_letters = read_letters[:-8]
         return read_letters
 
-    print '_no_tag_end_found_for_' + tag
-    return '_no_tag_end_found_for_' + tag
-
-def extract_revision_text(f):
-    letter = f.read(1)
-    read_letters = ''
-
-    text_begin = False
-    text_end = False
-
-    while letter != '' and not text_begin:
-        read_letters += letter
-        letter = f.read(1)
-        text_begin = read_letters[-5:] == '<text'
-
-    if text_begin:
-        while letter != '>':
-            letter = f.read(1)
-        read_letters = ''
-    else:
-        print 'no text begin found!'
-        return 'no text begin found!'
-
-    letter = f.read(1)
-    while letter != '' and not text_end:
-        read_letters += letter
-        letter = f.read(1)
-        text_end = read_letters[-7:] == '</text>'
-
-    if text_end:
-        read_letters = read_letters[:-7]
-        return read_letters
-
-    print 'no text end found!'
-    return 'no text end found!'
+    return '_no_title_end_found'
 
 
 def extract_page(f, page_counter):
-    # title = extract_page_title(f)
-    title = extract_tag_content(f, 'title')
+    title = extract_page_title(f)
     title = title.replace(os.sep, '-')
-
-    extract_tag_content(f, 'ns')
-    extract_tag_content(f, 'id')
 
     remove_beggining_spaces(f)
     
-    text = extract_revision_text(f)
-
     letter = f.read(1)
     read_letters = ''
     end_of_page = False
@@ -126,8 +81,7 @@ def extract_page(f, page_counter):
 
     try:
         page_file = open(pages_path + str(title) + '.xml', 'w')
-        page_file.write(text)
-        # page_file.write(read_letters)
+        page_file.write(read_letters)
         page_file.close()
     except Exception as e:
         logging.exception('deu merda!: ' + title)
@@ -152,6 +106,6 @@ def extract_pages():
 
 if __name__ == '__main__':
 
-    # extract_wiki_piece()
+    extract_wiki_piece()
 
     extract_pages()
