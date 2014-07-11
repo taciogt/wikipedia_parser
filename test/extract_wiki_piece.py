@@ -5,19 +5,16 @@ __author__ = 'tacio'
 import os
 
 
-TEST_FILES_DIR = 'test_files'
+TEST_FILES_DIR = 'files/created'
 WIKI_FILE = 'ptwiki-latest-pages-articles.xml'
 WIKI_FILE_PATH = os.path.join(os.path.pardir, 'files', WIKI_FILE)
 WIKI_PIECE_FILE = 'ptwiki-piece.xml'
 WIKI_PIECE_FILE_PATH = os.path.join(TEST_FILES_DIR, WIKI_PIECE_FILE)
 
 
-def create_files_dir():
-    if TEST_FILES_DIR not in os.listdir(os.curdir):
-        os.mkdir(TEST_FILES_DIR)
-    else:
-        if WIKI_PIECE_FILE in os.listdir(TEST_FILES_DIR):
-            os.remove(WIKI_PIECE_FILE_PATH)
+def delete_previous_file():
+    if os.path.exists(WIKI_PIECE_FILE_PATH):
+        os.remove(WIKI_PIECE_FILE_PATH)
 
 
 def file_walker(original_file_path, new_file_path, pages_number=4):
@@ -33,7 +30,6 @@ def file_walker(original_file_path, new_file_path, pages_number=4):
             new_file.write(read_letter)
 
             read_word += read_letter
-
 
             if read_word == '<page>':
                 page_start = True
@@ -53,8 +49,8 @@ def file_walker(original_file_path, new_file_path, pages_number=4):
 
 
 def run():
-    create_files_dir()
-    file_walker(WIKI_FILE_PATH, WIKI_PIECE_FILE_PATH, 100)
+    delete_previous_file()
+    file_walker(WIKI_FILE_PATH, WIKI_PIECE_FILE_PATH, 50)
 
 
 if __name__ == '__main__':

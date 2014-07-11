@@ -7,8 +7,6 @@ import unittest
 
 class TestWikiBreaker(unittest.TestCase):
 
-    def setUp(self):
-        self.seq = range(10)
 
     def test_shuffle(self):
         # make sure the shuffled sequence does not lose any elements

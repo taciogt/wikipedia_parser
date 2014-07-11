@@ -53,6 +53,7 @@ coverage.xml
 docs/_build/
 
 # custom ignore
-files/
+/files/
 third-part-software/
 .idea
+/test/files/created/
