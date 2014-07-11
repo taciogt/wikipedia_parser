@@ -54,6 +54,6 @@ docs/_build/
 
 # custom ignore
 /files/
+/test/files/created/
 third-part-software/
 .idea
-/test/files/created/
