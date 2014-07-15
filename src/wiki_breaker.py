@@ -61,7 +61,7 @@ def extract_page_title(f):
     return '_no_title_end_found'
 
 
-def extract_page(f, page_counter):
+def extract_page(f, pages_dir):
     title = extract_page_title(f)
     title = title.replace(os.sep, '-')
 
@@ -80,15 +80,17 @@ def extract_page(f, page_counter):
         read_letters = read_letters[0:-7]
 
     try:
-        page_file = open(pages_path + str(title) + '.xml', 'w')
+        page_path = os.path.join(pages_dir, str(title) + '.xml')
+        page_file = open(page_path, 'w')
         page_file.write(read_letters)
         page_file.close()
     except Exception as e:
         logging.exception('deu merda!: ' + title)
 
 
-def extract_pages():
-    wiki_file = open(wiki_path, 'r')
+def extract_pages(origin_file, pages_dir):
+
+    wiki_file = open(origin_file, 'r')
 
     page_counter = 0
 
@@ -97,7 +99,7 @@ def extract_pages():
     while letter != '':
         read_letters += letter
         if read_letters[-6:] == '<page>':
-            extract_page(wiki_file, page_counter)
+            extract_page(wiki_file, pages_dir)
             page_counter += 1
             read_letters = ''
 

@@ -4,6 +4,11 @@ __author__ = 'tacio'
 import random
 import unittest
 import os
+import wiki_breaker
+
+
+file_name = __file__.split(os.path.sep)[-1]
+test_dir = __file__.replace(file_name, '')
 
 
 class TestWikiBreaker(unittest.TestCase):
@@ -11,9 +16,7 @@ class TestWikiBreaker(unittest.TestCase):
     @staticmethod
     def _clean_created_test_files():
         print 'Cleaning created files...'
-        file_name = __file__.split(os.path.sep)[-1]
-        file_dir = __file__.replace(file_name, '')
-        created_files_dir = os.path.join(file_dir, 'files', 'created', 'articles-files')
+        created_files_dir = os.path.join(test_dir, 'files', 'created', 'articles-files')
         for f in os.listdir(created_files_dir):
             f = os.path.join(created_files_dir, f)
             print 'Removing file: ' + f
@@ -22,6 +25,9 @@ class TestWikiBreaker(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls._clean_created_test_files()
+        origin_file = os.path.join(test_dir, 'files', 'created', 'ptwiki-piece.xml')
+        pages_dir = os.path.join(test_dir, 'files', 'created', 'articles-files')
+        wiki_breaker.extract_pages(origin_file, pages_dir)
 
     def setUp(self):
         self.seq = range(10)
