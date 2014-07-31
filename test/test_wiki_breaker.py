@@ -53,5 +53,5 @@ class TestWikiBreaker(unittest.TestCase):
         for element in random.sample(self.seq, 5):
             self.assertTrue(element in self.seq)
 
-# if __name__ == '__main__':
-#     unittest.main()
+if __name__ == '__main__':
+    unittest.main()

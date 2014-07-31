@@ -5,9 +5,10 @@ __author__ = 'tacio'
 import os
 
 
-TEST_FILES_DIR = 'files/created'
+TEST_FILES_DIR = 'test/files/created'
 WIKI_FILE = 'ptwiki-latest-pages-articles.xml'
-WIKI_FILE_PATH = os.path.join(os.path.pardir, 'files', WIKI_FILE)
+# WIKI_FILE_PATH = os.path.join(os.path.pardir, 'files', WIKI_FILE)
+WIKI_FILE_PATH = os.path.join('files', WIKI_FILE)
 WIKI_PIECE_FILE = 'ptwiki-piece.xml'
 WIKI_PIECE_FILE_PATH = os.path.join(TEST_FILES_DIR, WIKI_PIECE_FILE)
 
