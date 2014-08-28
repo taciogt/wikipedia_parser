@@ -1,11 +1,12 @@
 ## -*- coding: utf-8 -*-
 
 import os
+import sys
 import logging
 
 import file_names
 
-sample_test = True
+sample_test = False
 if sample_test:
     wiki_path = file_names.wiki_piece
     pages_path = file_names.pages_path
@@ -87,6 +88,8 @@ def extract_page(f, pages_dir):
     except Exception as e:
         logging.exception('deu merda!: ' + title)
 
+    return title
+
 
 def extract_pages(origin_file, pages_dir):
 
@@ -99,9 +102,16 @@ def extract_pages(origin_file, pages_dir):
     while letter != '':
         read_letters += letter
         if read_letters[-6:] == '<page>':
-            extract_page(wiki_file, pages_dir)
+            title = extract_page(wiki_file, pages_dir)
             page_counter += 1
             read_letters = ''
+
+            if page_counter % 50 == 0:
+                sys.stdout.write(".")
+                if page_counter % 1000 == 0:
+                    sys.stdout.write(str(page_counter) + ' páginas')
+
+                sys.stdout.flush()
 
         letter = wiki_file.read(1)
 
@@ -110,4 +120,4 @@ if __name__ == '__main__':
 
     extract_wiki_piece()
 
-    extract_pages()
+    extract_pages(wiki_path, pages_path)
