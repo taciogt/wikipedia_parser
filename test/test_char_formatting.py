@@ -39,11 +39,18 @@ class TestCharacterFormatting(unittest.TestCase):
         formatted_text = "Some text with bold and italic chars. End."
         self.assertEqual(formatted_text, formatter.format_text(text))
 
+        text = "Some text with '''''bold and italic chars''''' and '''''another'''''. End."
+        formatted_text = "Some text with bold and italic chars and another. End."
+        self.assertEqual(formatted_text, formatter.format_text(text))
+
 
     def test_strike_text(self):
         text = "Some text with <strike>striked chars</strike>. End."
         formatted_text = "Some text with striked chars. End."
+        self.assertEqual(formatted_text, formatter.format_text(text))
 
+        text = "Some text with <strike>striked chars</strike> and <strike>doubled</strike>. End."
+        formatted_text = "Some text with striked chars and doubled. End."
         self.assertEqual(formatted_text, formatter.format_text(text))
 
 

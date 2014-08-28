@@ -32,9 +32,12 @@ def format_italic(text):
 
 
 def format_strike(text):
-    pattern = re.compile("<strike>.*</strike>")
-    for match in pattern.findall(text):
-        text = text.replace(match, match[8:-9])
+    pattern = "<strike>.*?</strike>"
+    matches = re.finditer(pattern, text)
+    for match in matches:
+        matched_str = match.group()
+        if not escape_markup(text, match):
+            text = text.replace(matched_str, matched_str[8:-9])
     return text
 
 
