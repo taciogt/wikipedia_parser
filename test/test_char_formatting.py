@@ -44,8 +44,8 @@ class TestCharacterFormatting(unittest.TestCase):
         self.assertEqual(formatted_text, formatter.format_text(text))
 
 
-    # def test_escape_wiki_markup(self):
-    #     text = "Some text with <nowiki>no ''markup''</nowiki>. End."
-    #     formatted_text = "Some text with no ''markup''. End."
-    #
-    #     self.assertEqual(formatted_text, formatter.format_text(text))
+    def test_escape_wiki_markup(self):
+        text = "Some text with <nowiki>no ''markup''</nowiki>. End."
+        formatted_text = "Some text with no ''markup''. End."
+
+        self.assertEqual(formatted_text, formatter.format_text(text))
