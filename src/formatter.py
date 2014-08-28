@@ -12,9 +12,12 @@ def escape_markup(text, match):
 
 
 def format_bold(text):
-    pattern = re.compile("'''[^']*'''")
-    for match in pattern.findall(text):
-        text = text.replace(match, match[3:-3])
+    pattern = "'''[^']*'''"
+    matches = re.finditer(pattern, text)
+    for match in matches:
+        matched_str = match.group()
+        if not escape_markup(text, match):
+            text = text.replace(matched_str, matched_str[3:-3])
     return text
 
 
