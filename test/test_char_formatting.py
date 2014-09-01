@@ -57,3 +57,7 @@ class TestCharacterFormatting(unittest.TestCase):
         text = "Checking if escapes <nowiki>some '''bold markup'''</nowiki>. End."
         formatted_text = "Checking if escapes some '''bold markup'''. End."
         self.assertEqual(formatted_text, formatter.format_text(text))
+
+        text = "Checking if escapes <nowiki>some <strike>no strike</strike> markup</nowiki>. End."
+        formatted_text = "Checking if escapes some <strike>no strike</strike> markup. End."
+        self.assertEqual(formatted_text, formatter.format_text(text))
