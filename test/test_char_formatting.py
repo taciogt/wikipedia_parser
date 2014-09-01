@@ -4,12 +4,7 @@ __author__ = 'tacio'
 
 
 import unittest
-import os
 import formatter
-
-
-file_name = __file__.split(os.path.sep)[-1]
-test_dir = __file__.replace(file_name, '')
 
 
 class TestCharacterFormatting(unittest.TestCase):

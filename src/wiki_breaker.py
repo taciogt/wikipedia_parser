@@ -106,9 +106,9 @@ def extract_pages(origin_file, pages_dir):
             page_counter += 1
             read_letters = ''
 
-            if page_counter % 50 == 0:
+            if page_counter % 100 == 0:
                 sys.stdout.write(".")
-                if page_counter % 1000 == 0:
+                if page_counter % 10000 == 0:
                     sys.stdout.write(str(page_counter) + ' páginas')
 
                 sys.stdout.flush()
