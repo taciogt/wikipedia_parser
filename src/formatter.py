@@ -48,10 +48,22 @@ def format_escape_markup(text):
     return text
 
 
+def get_text(text):
+    pattern = "(<text.*?>).*(</text>)"
+    match = re.search(pattern, text)
+    if match:
+        text = match.group()
+        text = text.replace(match.group(1), '')
+        text = text.replace(match.group(2), '')
+    return text
+
+
 def format_text(text):
     formatted_text = format_bold(text)
     formatted_text = format_italic(formatted_text)
     formatted_text = format_strike(formatted_text)
     formatted_text = format_escape_markup(formatted_text)
+    formatted_text = get_text(formatted_text)
+
 
     return formatted_text
