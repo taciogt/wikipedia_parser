@@ -59,11 +59,11 @@ def get_text(text):
 
 
 def format_text(text):
+
     formatted_text = format_bold(text)
     formatted_text = format_italic(formatted_text)
     formatted_text = format_strike(formatted_text)
     formatted_text = format_escape_markup(formatted_text)
     formatted_text = get_text(formatted_text)
-
 
     return formatted_text
