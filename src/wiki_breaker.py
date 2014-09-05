@@ -3,8 +3,10 @@
 import os
 import sys
 import logging
+import string
 
 import file_names
+
 
 sample_test = False
 if sample_test:
@@ -81,12 +83,23 @@ def extract_page(f, pages_dir):
         read_letters = read_letters[0:-7]
 
     try:
-        page_path = os.path.join(pages_dir, str(title) + '.xml')
+        title_first_letter = title[0]
+        title_first_letter = str.capitalize(title_first_letter)
+
+        if title_first_letter in string.uppercase:
+            page_dir = os.path.join(pages_dir, title_first_letter)
+            if not os.path.isdir(pages_dir):
+                os.mkdir(page_dir)
+
+            page_path = os.path.join(page_dir, title_first_letter, str(title) + '.xml')
+        else:
+            page_path = os.path.join(pages_dir, 'special-chars', str(title) + '.xml')
         page_file = open(page_path, 'w')
         page_file.write(read_letters)
         page_file.close()
     except Exception as e:
         logging.exception('deu merda!: ' + title)
+        raise Exception()
 
     return title
 

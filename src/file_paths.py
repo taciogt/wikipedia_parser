@@ -1,3 +1,10 @@
+import os
+
+HOME_DIR = os.path.expanduser('~')
+ROOT = os.path.join(HOME_DIR, 'wikipedia_files')
+
+WIKI_DUMP = os.path.join(ROOT, 'ptwiki-latest-pages-articles.xml')
+
 wiki_full = '../files/ptwiki-latest-pages-articles.xml'
 wiki_piece = '../files/ptwiki-latest-pages-articles-piece.xml'
 pages_path = '../files/pages/'
