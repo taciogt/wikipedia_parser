@@ -5,16 +5,16 @@ import sys
 import logging
 import string
 
-import file_names
+from file_paths import WIKI_DUMP, PAGES_DIR
 
 
-sample_test = False
-if sample_test:
-    wiki_path = file_names.wiki_piece
-    pages_path = file_names.pages_path
-else:
-    wiki_path = file_names.wiki_full
-    pages_path = file_names.all_pages_path
+# sample_test = False
+# if sample_test:
+#     wiki_path = file_names.wiki_piece
+#     pages_path = file_names.pages_path
+# else:
+#     wiki_path = file_names.wiki_full
+#     pages_path = file_names.all_pages_path
 
 
 def extract_wiki_piece():
@@ -88,12 +88,13 @@ def extract_page(f, pages_dir):
 
         if title_first_letter in string.uppercase:
             page_dir = os.path.join(pages_dir, title_first_letter)
-            if not os.path.isdir(pages_dir):
-                os.mkdir(page_dir)
-
-            page_path = os.path.join(page_dir, title_first_letter, str(title) + '.xml')
         else:
-            page_path = os.path.join(pages_dir, 'special-chars', str(title) + '.xml')
+            page_dir = os.path.join(pages_dir, 'special-chars')
+
+        if not os.path.isdir(page_dir):
+                os.mkdir(page_dir)
+        page_path = os.path.join(page_dir, str(title) + '.xml')
+
         page_file = open(page_path, 'w')
         page_file.write(read_letters)
         page_file.close()
@@ -131,6 +132,4 @@ def extract_pages(origin_file, pages_dir):
 
 if __name__ == '__main__':
 
-    extract_wiki_piece()
-
-    extract_pages(wiki_path, pages_path)
+    extract_pages(WIKI_DUMP, PAGES_DIR)
