@@ -17,7 +17,7 @@ class TestCharacterFormatting(unittest.TestCase):
 
 
     def test_check_pages_dir(self):
-        self.assertTrue(os.path.isdir(PAGES_DIR))
+        self.assertTrue(os.path.isdir(PAGES_DIR), 'Nao foi encontrada a pasta: ' + PAGES_DIR)
 
 
     def test_no_unnecessary_files_and_dirs(self):

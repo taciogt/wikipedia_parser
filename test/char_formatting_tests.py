@@ -7,7 +7,6 @@ import unittest
 import wiki_formatter
 
 
-print wiki_formatter
 
 class TestCharacterFormatting(unittest.TestCase):
 
