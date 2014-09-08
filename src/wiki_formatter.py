@@ -58,12 +58,17 @@ def get_text(text):
     return text
 
 
-def format_text(text):
+def format_level(text):
+    pass
+    # TODO: implement this
 
-    formatted_text = format_bold(text)
+
+def format_text(text):
+    formatted_text = get_text(text)
+    formatted_text = format_bold(formatted_text)
     formatted_text = format_italic(formatted_text)
     formatted_text = format_strike(formatted_text)
     formatted_text = format_escape_markup(formatted_text)
-    formatted_text = get_text(formatted_text)
+
 
     return formatted_text
