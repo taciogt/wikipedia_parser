@@ -28,5 +28,13 @@ def remove_pages():
     print 'Total de páginas removidas: ' + str(number_of_pages)
 
 
+def print_execution_time(start, end):
+    processing_time = (end-start)
+    hours = int(processing_time / 3600)
+    minutes = int(processing_time / 60)
+    seconds = int(processing_time % 60)
+    print 'Processing time: ' + str(hours) + 'h ' + str(minutes) + 'min ' + str(seconds) + 's'
+
+
 if __name__ == '__main__':
     remove_pages()

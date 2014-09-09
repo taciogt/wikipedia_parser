@@ -7,7 +7,7 @@ import logging
 import string
 
 from file_paths import WIKI_DUMP, PAGES_DIR
-
+from utils import print_execution_time
 
 # sample_test = False
 # if sample_test:
@@ -138,15 +138,11 @@ def extract_pages(origin_file, pages_dir):
     print 'Quantidade de erros: ' + str(len(errors))
     print errors
 
+
 if __name__ == '__main__':
     start = time.time()
 
     extract_pages(WIKI_DUMP, PAGES_DIR)
 
     end = time.time()
-    processing_time = (end-start)
-    hours = int(processing_time / 3600)
-    minutes = int(processing_time / 60)
-    seconds = int(processing_time % 60)
-
-    print 'Processing time: ' + str(hours) + 'h ' + str(minutes) + 'min ' + str(seconds) + 's'
+    print_execution_time(start, end)
