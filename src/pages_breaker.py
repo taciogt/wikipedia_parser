@@ -2,6 +2,7 @@
 
 import os
 import sys
+import time
 import logging
 import string
 
@@ -99,7 +100,8 @@ def extract_page(f, pages_dir):
         page_file.write(read_letters)
         page_file.close()
     except Exception as e:
-        logging.exception('deu merda!: ' + title)
+        # logging.exception('deu merda!: ' + title)
+        e.file_name = title
         raise e
 
     return title
@@ -118,7 +120,7 @@ def extract_pages(origin_file, pages_dir):
         read_letters += letter
         if read_letters[-6:] == '<page>':
             try:
-                title = extract_page(wiki_file, pages_dir)
+                extract_page(wiki_file, pages_dir)
                 page_counter += 1
                 read_letters = ''
 
@@ -129,12 +131,22 @@ def extract_pages(origin_file, pages_dir):
 
                     sys.stdout.flush()
             except Exception as e:
-                errors.append(e)
+                errors.append((e, e.file_name))
 
         letter = wiki_file.read(1)
 
+    print 'Quantidade de erros: ' + str(len(errors))
     print errors
 
 if __name__ == '__main__':
+    start = time.time()
 
     extract_pages(WIKI_DUMP, PAGES_DIR)
+
+    end = time.time()
+    processing_time = (end-start)
+    hours = int(processing_time / 3600)
+    minutes = int(processing_time / 60)
+    seconds = int(processing_time % 60)
+
+    print 'Processing time: ' + str(hours) + 'h ' + str(minutes) + 'min ' + str(seconds) + 's'

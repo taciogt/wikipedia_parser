@@ -50,7 +50,7 @@ def format_escape_markup(text):
 
 def get_text(text):
     pattern = "(<text.*?>).*(</text>)"
-    match = re.search(pattern, text)
+    match = re.search(pattern, text, flags=re.DOTALL)
     if match:
         text = match.group()
         text = text.replace(match.group(1), '')

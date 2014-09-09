@@ -6,7 +6,7 @@ __author__ = 'tacio'
 import random
 import unittest
 import os
-import wiki_breaker
+import pages_breaker
 
 
 file_name = __file__.split(os.path.sep)[-1]
