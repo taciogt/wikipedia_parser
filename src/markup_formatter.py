@@ -59,8 +59,13 @@ def get_text(text):
 
 
 def format_level(text):
-    pass
-    # TODO: implement this
+    pattern = "==.*?=="
+    matches = re.finditer(pattern, text)
+    for match in matches:
+        matched_str = match.group()
+        if not escape_markup(text, match):
+            text = text.replace(matched_str, matched_str[2:-2])
+    return text
 
 
 def format_text(text):
@@ -68,6 +73,7 @@ def format_text(text):
     formatted_text = format_bold(formatted_text)
     formatted_text = format_italic(formatted_text)
     formatted_text = format_strike(formatted_text)
+    formatted_text = format_level(formatted_text)
     formatted_text = format_escape_markup(formatted_text)
 
 

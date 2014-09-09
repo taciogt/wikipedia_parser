@@ -4,7 +4,7 @@ __author__ = 'tacio'
 
 
 import unittest
-import wiki_formatter
+import markup_formatter
 
 
 class TestCharacterFormatting(unittest.TestCase):
@@ -30,7 +30,7 @@ class TestCharacterFormatting(unittest.TestCase):
                     </revision>
                   </page>'''
         formatted_text = "Conteúdo real do artigo"
-        self.assertEqual(formatted_text, wiki_formatter.format_text(text))
+        self.assertEqual(formatted_text, markup_formatter.format_text(text))
 
         text = '''<page>
                     <title>Astronomia</title>
@@ -39,4 +39,4 @@ class TestCharacterFormatting(unittest.TestCase):
                     </revision>
                   </page>'''
         formatted_text = "Conteúdo real"
-        self.assertEqual(formatted_text, wiki_formatter.format_text(text))
+        self.assertEqual(formatted_text, markup_formatter.format_text(text))

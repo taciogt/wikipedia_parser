@@ -100,12 +100,13 @@ def extract_page(f, pages_dir):
         page_file.close()
     except Exception as e:
         logging.exception('deu merda!: ' + title)
-        raise Exception()
+        raise e
 
     return title
 
 
 def extract_pages(origin_file, pages_dir):
+    errors = []
 
     wiki_file = open(origin_file, 'r')
 
@@ -116,19 +117,23 @@ def extract_pages(origin_file, pages_dir):
     while letter != '':
         read_letters += letter
         if read_letters[-6:] == '<page>':
-            title = extract_page(wiki_file, pages_dir)
-            page_counter += 1
-            read_letters = ''
+            try:
+                title = extract_page(wiki_file, pages_dir)
+                page_counter += 1
+                read_letters = ''
 
-            if page_counter % 100 == 0:
-                sys.stdout.write(".")
-                if page_counter % 10000 == 0:
-                    sys.stdout.write(str(page_counter) + ' páginas')
+                if page_counter % 200 == 0:
+                    sys.stdout.write(".")
+                    if page_counter % 10000 == 0:
+                        sys.stdout.write('\n' + str(page_counter) + ' páginas')
 
-                sys.stdout.flush()
+                    sys.stdout.flush()
+            except Exception as e:
+                errors.append(e)
 
         letter = wiki_file.read(1)
 
+    print errors
 
 if __name__ == '__main__':
 
