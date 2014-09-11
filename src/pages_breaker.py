@@ -1,13 +1,11 @@
 ## -*- coding: utf-8 -*-
 
 import os
-import sys
 import time
-import logging
 import string
 
 from file_paths import WIKI_DUMP, PAGES_DIR
-from utils import print_execution_time
+from utils import print_execution_time, print_inline
 
 # sample_test = False
 # if sample_test:
@@ -100,7 +98,6 @@ def extract_page(f, pages_dir):
         page_file.write(read_letters)
         page_file.close()
     except Exception as e:
-        # logging.exception('deu merda!: ' + title)
         e.file_name = title
         raise e
 
@@ -125,11 +122,10 @@ def extract_pages(origin_file, pages_dir):
                 read_letters = ''
 
                 if page_counter % 200 == 0:
-                    sys.stdout.write(".")
+                    print_inline(".")
                     if page_counter % 10000 == 0:
-                        sys.stdout.write('\n' + str(page_counter) + ' páginas')
+                        print_inline('\n' + str(page_counter) + ' páginas')
 
-                    sys.stdout.flush()
             except Exception as e:
                 errors.append((e, e.file_name))
 
